@@ -1,10 +1,6 @@
 import { app } from './app.js';
-import mongoose from 'mongoose';
-import { config } from 'dotenv';
+import connectDB from './db/db.js';
 
-config();
-
-const uriDb = process.env.DB_HOST;
 const port = 3000;
 const server = 'http://localhost';
 
@@ -12,7 +8,7 @@ export const serverAddress = `${server}:${port}`;
 
 export const startServer = async () => {
   try {
-    const connection = await mongoose.connect(uriDb);
+    await connectDB();
 
     app.listen(port, () => {
       console.log(`Server running. Use our API on server: ${serverAddress}`);
