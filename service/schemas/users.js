@@ -7,15 +7,37 @@ const user = new Schema({
   name: {
     type: String,
     required: true,
+    minlength: [2, 'Name must be at least 2 characters long'],
+    maxlength: [40, 'Name can be up to 40 characters long'],
   },
+
   email: {
     type: String,
     required: true,
     unique: true,
+    validate: {
+      validator: function (email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      },
+      message: 'Invalid email format',
+    },
   },
+
   password: {
     type: String,
     required: true,
+    minlength: [1, 'Password must be at least 1 characters long'],
+    // maxlength: [30, 'Password can be up to 30 characters long'],
+  },
+
+  token: {
+    type: String,
+    default: null,
+  },
+
+  refreshToken: {
+    type: String,
+    default: null,
   },
 });
 
