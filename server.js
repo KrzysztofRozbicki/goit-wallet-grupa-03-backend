@@ -1,7 +1,9 @@
 import { app } from './app.js';
 import connectDB from './db/db.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const server = 'http://localhost';
 
 export const serverAddress = `${server}:${port}`;
