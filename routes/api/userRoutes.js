@@ -20,4 +20,4 @@ usersRouter.post('/refresh', refreshTokens); //refresh token
 
 usersRouter.get('/profile', auth, getUserProfile); // get user data (name mail)
 
-usersRouter.get('/logout', auth, logoutUser);
+usersRouter.post('/logout', auth, logoutUser);
