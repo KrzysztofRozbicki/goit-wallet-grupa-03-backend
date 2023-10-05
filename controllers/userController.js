@@ -105,7 +105,7 @@ export const logoutUser = async (req, res) => {
     await user.save();
     const { name } = user;
 
-    // res.status(200).json({ message: `Logout ${name} successful` });
+    res.status(200).json({ message: `Logout ${name} successful` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Logout failed' });
