@@ -102,6 +102,7 @@ export const logoutUser = async (req, res) => {
     }
 
     user.token = null;
+    user.refreshToken = null;
     await user.save();
     const { name } = user;
 
