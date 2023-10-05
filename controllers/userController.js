@@ -1,8 +1,14 @@
 import bcrypt from 'bcryptjs';
 import User from '../service/schemas/users.js';
 import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
+import { sendMail } from '../utils/sendMail.js';
+import sgMail from '@sendgrid/mail';
+
 import dotenv from 'dotenv';
 dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const registerUser = async (req, res) => {
   try {
@@ -19,6 +25,8 @@ export const registerUser = async (req, res) => {
       email,
       password,
     });
+
+    sendMail(email, name);
 
     res.status(201).json({ message: `User '${name}' registered successfully` });
   } catch (err) {
