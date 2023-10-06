@@ -38,7 +38,7 @@ export const registerUser = async (req, res) => {
 
     sendMail(email, name);
 
-    res.status(201).json({ message: `User '${name}' registered successfully`, token: token });
+    res.status(201).json({ message: `User '${name}' registered successfully`, user: user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Registration failed' });
