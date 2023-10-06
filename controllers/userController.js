@@ -26,9 +26,19 @@ export const registerUser = async (req, res) => {
       password,
     });
 
+    const payload = {
+      id: user.id,
+      username: email,
+    };
+
+    const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+
+    user.token = token;
+    await user.save();
+
     sendMail(email, name);
 
-    res.status(201).json({ message: `User '${name}' registered successfully` });
+    res.status(201).json({ message: `User '${name}' registered successfully`, user: user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Registration failed' });
