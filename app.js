@@ -6,10 +6,15 @@ import passport from 'passport';
 import { transactionsRouter } from './routes/api/transactionRoutes.js';
 import { usersRouter } from './routes/api/userRoutes.js';
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './docs/swaggerDoc.js';
+
 export const app = express();
 const logger = morgan;
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
+
+app.use('/api-wallet', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(logger(formatsLogger));
 app.use(cors());
