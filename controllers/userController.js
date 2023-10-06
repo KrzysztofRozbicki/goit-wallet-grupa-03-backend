@@ -37,8 +37,9 @@ export const registerUser = async (req, res) => {
     await user.save();
 
     sendMail(email, name);
+    const registrationSuccess = `User '${name}' registered successfully. Welcome email sent to ${email}.`;
 
-    res.status(201).json({ message: `User '${name}' registered successfully`, user: user });
+    res.status(201).json({ message: registrationSuccess, user: user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Registration failed' });
