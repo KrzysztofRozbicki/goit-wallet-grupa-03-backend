@@ -35,10 +35,10 @@ const user = new Schema({
     default: null,
   },
 
-  refreshToken: {
-    type: String,
-    default: null,
-  },
+  // refreshToken: {
+  //   type: String,
+  //   default: null,
+  // },
 });
 
 user.pre('save', async function (next) {
