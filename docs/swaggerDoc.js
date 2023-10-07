@@ -3,6 +3,16 @@ import { swaggerOptions } from '../utils/swaggerConfig.js';
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
+swaggerDocs.components = {
+  securitySchemes: {
+    BearerAuth: {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    },
+  },
+};
+
 swaggerDocs.paths = {
   '/api/users/register': {
     post: {
@@ -43,6 +53,7 @@ swaggerDocs.paths = {
       },
     },
   },
+
   '/api/users/login': {
     post: {
       summary: 'Log in user',
@@ -82,16 +93,49 @@ swaggerDocs.paths = {
       },
     },
   },
+
   '/api/users/refresh': {
     post: {
-      summary: 'Refresh user tokens',
-      description: 'Refresh user tokens',
+      summary: 'Refresh user token',
+      description: 'Refresh user token',
       tags: ['Users'],
-      responses: {
-        // Opisy
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                refreshToken: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       },
+      responses: {
+        200: {
+          description: 'Token refreshed successfully',
+        },
+        400: {
+          description: 'Bad request',
+        },
+        401: {
+          description: 'Unauthorized',
+        },
+        500: {
+          description: 'Internal server error',
+        },
+      },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
     },
   },
+
   '/api/users/profile': {
     get: {
       summary: 'Get user profile',
@@ -111,8 +155,14 @@ swaggerDocs.paths = {
           description: 'Internal server error',
         },
       },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
     },
   },
+
   '/api/users/logout': {
     post: {
       summary: 'Log out user',
@@ -132,6 +182,11 @@ swaggerDocs.paths = {
           description: 'Internal server error',
         },
       },
+      security: [
+        {
+          BearerAuth: [],
+        },
+      ],
     },
   },
 };
