@@ -2,7 +2,8 @@ import Transaction from '../service/schemas/transactions.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
-import moment from 'moment';
+import validCategories from '../utils/validCategories.js';
+import convertToDDMMYYYY from '../utils/correctDate.js';
 
 export const getAllCategories = async (req, res) => {
   try {
@@ -34,46 +35,10 @@ export const createTransaction = async (req, res) => {
   if (isIncome) delete req.body.category;
 
   if (amount <= 0) return res.status(400).json({ error: 'The amount must be greather than zero' });
-
-  function convertToDDMMYYYY(dateString) {
-    const formats = [
-      'YYYY-MM-DD',
-      'MM/DD/YYYY',
-      'D MMMM YYYY',
-      'YYYY/MM/DD',
-      'MMMM D, YYYY',
-      'D MMMM YYYY',
-      'DD MMM, YYYY',
-      'YYYY, MMM DD',
-      'DD/MM/YY',
-      'DD/MM/YYYY',
-      'MMMM DD, YYYY',
-      'DD MMMM YYYY',
-      'YYYY/MM/DD',
-      'DD.MM.YYYY',
-      'DD-MM-YYYY',
-    ];
-
-    const date = moment(dateString, formats, true);
-    return date.isValid() ? date.format('DD-MM-YYYY') : 'Invalid date';
-  }
   const correctDate = convertToDDMMYYYY(date);
   if (correctDate === 'Invalid date') return res.status(400).json({ error: 'Invalid date format' });
 
   const finalCategory = isIncome ? 'Income' : category;
-  const validCategories = [
-    'Income',
-    'Main expenses',
-    'Products',
-    'Car',
-    'Self care',
-    'Child care',
-    'Household products',
-    'Education',
-    'Leisure',
-    'Entertainment',
-    'Other expenses',
-  ];
 
   if (!validCategories.includes(finalCategory)) {
     return res
