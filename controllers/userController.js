@@ -100,9 +100,9 @@ export const getUserProfile = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const { name, email } = user;
+    const { name, token } = user;
 
-    res.status(200).json({ name, email });
+    res.status(200).json({ name, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Get user profile failed' });
