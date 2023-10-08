@@ -1,3 +1,10 @@
+import Transaction from '../service/schemas/transactions.js';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+import validCategories from '../utils/validCategories.js';
+import convertToDDMMYYYY from '../utils/correctDate.js';
+
 export const getAllCategories = async (req, res) => {
   try {
   } catch (err) {}
@@ -8,22 +15,116 @@ export const filterTransactions = async (req, res) => {
   } catch (err) {}
 };
 
-export const updateTransaction = async (req, res) => {
+export const getAllTransactions = async (req, res, next) => {
   try {
-  } catch (err) {}
-};
+    const transactions = await Transaction.find({ user: req.user._id });
 
-export const deleteTransaction = async (req, res) => {
-  try {
-  } catch (err) {}
-};
-
-export const getAllTransactions = async (req, res) => {
-  try {
-  } catch (err) {}
+    res.json(transactions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
 };
 
 export const createTransaction = async (req, res) => {
+  const { amount, category, date, isIncome, comment } = req.body;
+
+  if (!date || isIncome === undefined)
+    return res.status(400).json({ error: 'Please enter all required information' });
+
+  if (isIncome) delete req.body.category;
+
+  if (amount <= 0) return res.status(400).json({ error: 'The amount must be greather than zero' });
+  const correctDate = convertToDDMMYYYY(date);
+  if (correctDate === 'Invalid date') return res.status(400).json({ error: 'Invalid date format' });
+
+  const finalCategory = isIncome ? 'Income' : category;
+
+  if (!validCategories.includes(finalCategory)) {
+    return res
+      .status(400)
+      .json({ error: 'Invalid category provided. Please enter the correct category.' });
+  }
+
   try {
-  } catch (err) {}
+    const transaction = await Transaction.create({
+      user: req.user._id,
+      amount,
+      category: finalCategory,
+      date: correctDate,
+      isIncome,
+      comment,
+    });
+
+    res.status(201).json(transaction);
+  } catch (error) {
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+export const deleteTransaction = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid transaction ID format' });
+  }
+
+  try {
+    const transaction = await Transaction.findById(id);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction was not found or already deleted' });
+    }
+
+    if (transaction.user && transaction.user.toString() !== req.user._id.toString()) {
+      console.log('Not authorized'); // Log to see if this block is executed
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    await Transaction.deleteOne({ _id: id });
+
+    res.json({ message: 'Transaction removed!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+export const updateTransaction = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    let transaction = await Transaction.findById(id);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    if (!transaction.user.equals(req.user._id)) {
+      return res.status(401).json({ error: 'Not authorized' });
+    }
+
+    if (req.body.date) {
+      req.body.date = convertToDDMMYYYY(req.body.date);
+      if (req.body.date === 'Invalid date') {
+        return res.status(400).json({ error: 'Invalid date format' });
+      }
+    }
+
+    if (req.body.category && !validCategories.includes(req.body.category)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid category provided. Please enter the correct category.' });
+    }
+
+    transaction = await Transaction.findOneAndUpdate(
+      { _id: id },
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.json(transaction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Server Error' });
+  }
 };

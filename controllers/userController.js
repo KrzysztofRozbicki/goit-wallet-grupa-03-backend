@@ -39,7 +39,7 @@ export const registerUser = async (req, res) => {
     sendMail(email, name);
     const registrationSuccess = `User '${name}' registered successfully. Welcome email sent to ${email}.`;
 
-    res.status(201).json({ message: registrationSuccess, user: user });
+    res.status(201).json({ message: registrationSuccess, user: { name, email, token } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Registration failed' });
@@ -51,6 +51,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+    const name = user.name;
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -67,11 +68,11 @@ export const loginUser = async (req, res) => {
       username: user.email,
     };
 
-    const newRefreshToken = jwt.sign(payload, process.env.SECRET, {
-      expiresIn: '5h',
-    });
+    // const newRefreshToken = jwt.sign(payload, process.env.SECRET, {
+    //   expiresIn: '5h',
+    // });
 
-    user.refreshToken = newRefreshToken;
+    // user.refreshToken = newRefreshToken;
 
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
 
@@ -81,8 +82,9 @@ export const loginUser = async (req, res) => {
     res.status(200).json({
       message: 'Login successful',
       token: token,
-      refreshToken: newRefreshToken,
-      user: { email },
+      // refreshToken: newRefreshToken,
+
+      user: { name, email, token },
     });
   } catch (err) {
     console.error(err);
@@ -109,7 +111,35 @@ export const getUserProfile = async (req, res) => {
 
 export const refreshTokens = async (req, res) => {
   try {
-  } catch (error) {}
+    const refreshToken = req.body.refreshToken;
+
+    if (!refreshToken) {
+      return res
+        .status(400)
+        .json({ error: `Refresh token is required << ''refreshToken'' : ''string'' >>` });
+    }
+
+    const user = await User.findOne({ token: refreshToken });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Refresh token is not valid' });
+    }
+
+    const payload = {
+      id: user.id,
+      username: user.email,
+    };
+
+    const newAccessToken = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' });
+
+    user.token = newAccessToken;
+    await user.save();
+
+    res.status(200).json({ message: 'Token refreshed successfully', token: newAccessToken });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Token refresh failed' });
+  }
 };
 
 export const logoutUser = async (req, res) => {
@@ -121,7 +151,7 @@ export const logoutUser = async (req, res) => {
     }
 
     user.token = null;
-    user.refreshToken = null;
+    // user.refreshToken = null;
     await user.save();
     const { name } = user;
 
