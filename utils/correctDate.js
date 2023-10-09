@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-function convertToDDMMYYYY(dateString) {
+function convertDateToDDMMYYYY(dateString) {
   const formats = [
     'YYYY-MM-DD',
     'MM/DD/YYYY',
@@ -23,4 +23,4 @@ function convertToDDMMYYYY(dateString) {
   return date.isValid() ? date.format('DD-MM-YYYY') : 'Invalid date';
 }
 
-export default convertToDDMMYYYY;
+export default convertDateToDDMMYYYY;
