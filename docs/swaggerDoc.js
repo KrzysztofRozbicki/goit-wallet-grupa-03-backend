@@ -195,6 +195,16 @@ swaggerDocs.paths = {
       summary: 'List of all transactions for authenticated User',
       description: 'Get list of all User transactions',
       tags: ['Transactions'],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       responses: {
         200: {
           description: 'Success',
@@ -206,19 +216,17 @@ swaggerDocs.paths = {
           description: 'Internal server error',
         },
       },
-      security: [
-        {
-          BearerAuth: [],
-        },
-      ],
     },
-  },
 
-  '/api/transactions': {
     post: {
       summary: 'Create new transaction',
       description: 'Add new transaction with required fields.',
       tags: ['Transactions'],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       requestBody: {
         required: true,
         content: {
@@ -265,9 +273,13 @@ swaggerDocs.paths = {
 
   '/api/transactions/{id}': {
     patch: {
-      summary: 'Update transaction by ID',
-      description: 'Updated transaction with one of required fields.',
       tags: ['Transactions'],
+      summary: 'Update transaction by ID',
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           name: 'id',
@@ -318,13 +330,16 @@ swaggerDocs.paths = {
         },
       },
     },
-  },
 
-  '/api/transactions/{id}': {
     delete: {
       summary: 'Delete transaction by ID',
       description: 'Deleting transaction with specific ID',
       tags: ['Transactions'],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           name: 'id',
@@ -355,6 +370,11 @@ swaggerDocs.paths = {
       summary: 'Filter transactions',
       description: 'Filtering transaction by month and year',
       tags: ['Transactions'],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       parameters: [
         {
           name: 'month',
@@ -392,6 +412,11 @@ swaggerDocs.paths = {
         'Get total income, total expenses, balance, and sums for each category of transactions',
       description: 'Preparation of user balance',
       tags: ['Transactions'],
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
       responses: {
         200: {
           description: 'Success',

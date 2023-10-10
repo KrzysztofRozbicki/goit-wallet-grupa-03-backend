@@ -12,7 +12,8 @@ export const getAllTransactions = async (req, res, next) => {
     res.status(200).json({
       status: 'Success',
       code: 200,
-      data: { 'List of all User transactions:': transactions },
+      message: 'List of User transactions',
+      transactions,
     });
   } catch (error) {
     console.error(error);
@@ -54,7 +55,8 @@ export const createTransaction = async (req, res) => {
     res.status(201).json({
       status: 'Created',
       code: 201,
-      data: { 'Added new transaction:': newTransaction },
+      message: 'Added new transaction!',
+      newTransaction,
     });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
@@ -127,7 +129,7 @@ export const updateTransaction = async (req, res) => {
       status: 'Success',
       code: 200,
       message: `Updated transaction with id ${id}`,
-      data: { 'Transaction after update': result },
+      result,
     });
   } catch (error) {
     console.error(error);
@@ -174,7 +176,8 @@ export const filterTransactions = async (req, res) => {
     res.status(200).json({
       status: 'Success',
       code: 200,
-      data: { 'List of User transactions from the selected period (MM/YYYY):': transactions },
+      message: 'List of User transactions from the selected period (MM/YYYY)',
+      transactions,
     });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
@@ -276,7 +279,8 @@ export const getAllCategories = async (req, res) => {
     res.status(200).json({
       status: 'Success',
       code: 200,
-      data: { 'Sum of User income, expenses (also by category) and balance:': outcome },
+      message: 'Sum of User income, expenses (also by category) and balance',
+      outcome,
     });
   } catch (error) {
     console.error(error);
