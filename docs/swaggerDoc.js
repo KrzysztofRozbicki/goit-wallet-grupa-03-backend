@@ -197,12 +197,7 @@ swaggerDocs.paths = {
       tags: ['Transactions'],
       security: [
         {
-          bearerAuth: [],
-        },
-      ],
-      security: [
-        {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       responses: {
@@ -224,7 +219,7 @@ swaggerDocs.paths = {
       tags: ['Transactions'],
       security: [
         {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       requestBody: {
@@ -277,7 +272,7 @@ swaggerDocs.paths = {
       summary: 'Update transaction by ID',
       security: [
         {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       parameters: [
@@ -337,7 +332,7 @@ swaggerDocs.paths = {
       tags: ['Transactions'],
       security: [
         {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       parameters: [
@@ -372,7 +367,7 @@ swaggerDocs.paths = {
       tags: ['Transactions'],
       security: [
         {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       parameters: [
@@ -414,7 +409,7 @@ swaggerDocs.paths = {
       tags: ['Transactions'],
       security: [
         {
-          bearerAuth: [],
+          BearerAuth: [],
         },
       ],
       responses: {
