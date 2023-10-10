@@ -37,7 +37,8 @@ app.use('/api/info', viewRouter);
 app.use(passport.initialize());
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' });
+  // res.status(404).json({ message: 'Not found' });
+  res.status(404).render('notFound/index');
 });
 
 app.use((err, req, res, next) => {

@@ -1,14 +1,8 @@
 import express from 'express';
-import { getCustomers, getInfo, getNotFound } from '../../controllers/viewController.js';
-// import User from '../service/schemas/users.js';
-export const viewRouter = express.Router();
+import { getCustomers, getInfo } from '../../controllers/viewController.js';
 
-// viewRouter.get('/', (req, res) => {
-//   res.render('index');
-// });
+export const viewRouter = express.Router();
 
 viewRouter.get('/', getInfo);
 
 viewRouter.get('/customers', getCustomers);
-
-viewRouter.get('/*', getNotFound);
