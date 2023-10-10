@@ -9,8 +9,12 @@ import convertDateToDDMMYYYY from '../utils/correctDate.js';
 export const getAllTransactions = async (req, res, next) => {
   try {
     const transactions = await Transaction.find({ user: req.user._id });
-
-    res.status(200).json(transactions);
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: 'List of User transactions',
+      transactions,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -48,7 +52,12 @@ export const createTransaction = async (req, res) => {
       amount,
     });
 
-    res.status(201).json(newTransaction);
+    res.status(201).json({
+      status: 'Created',
+      code: 201,
+      message: 'Added new transaction!',
+      newTransaction,
+    });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -77,7 +86,11 @@ export const deleteTransaction = async (req, res) => {
 
     await Transaction.deleteOne({ _id: id });
 
-    res.status(200).json({ message: 'Transaction removed successfully' });
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: `Transaction with id ${id} removed successfully`,
+    });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -112,7 +125,12 @@ export const updateTransaction = async (req, res) => {
 
     result = await Transaction.findOneAndUpdate({ _id: id }, { $set: req.body }, { new: true });
 
-    res.status(200).json(result);
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: `Updated transaction with id ${id}`,
+      result,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: 'Internal server error' });
@@ -127,7 +145,7 @@ export const filterTransactions = async (req, res) => {
   }
 
   if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-    return res.status(400).json({ error: 'Invalid user' });
+    return res.status(401).json({ error: 'Invalid user' });
   }
   const matchStage = [
     {
@@ -155,7 +173,12 @@ export const filterTransactions = async (req, res) => {
 
   try {
     const transactions = await Transaction.aggregate(matchStage);
-    res.status(200).json(transactions);
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: 'List of User transactions from the selected period (MM/YYYY)',
+      transactions,
+    });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -253,7 +276,12 @@ export const getAllCategories = async (req, res) => {
       totalExpensesByCategories,
     };
 
-    res.status(200).json(outcome);
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: 'Sum of User income, expenses (also by category) and balance',
+      outcome,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
