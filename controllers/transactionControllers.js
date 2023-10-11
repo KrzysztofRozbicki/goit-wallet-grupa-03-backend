@@ -5,7 +5,6 @@ dotenv.config();
 import validCategories from '../utils/validCategories.js';
 import categories from '../utils/balanceCategories.js';
 import convertDateToDDMMYYYY from '../utils/correctDate.js';
-import Joi from 'joi';
 
 export const getAllTransactions = async (req, res, next) => {
   try {
