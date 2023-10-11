@@ -18,11 +18,11 @@ export const getCustomers = async (req, res) => {
   }
 };
 
-export const getNotFound = async (req, res) => {
-  try {
-    res.render('notFound/index');
-  } catch (error) {
-    console.error(err);
-    res.status(500).json({ error: 'Error' });
-  }
-};
+// export const getNotFound = async (req, res) => {
+//   try {
+//     res.render('notFound/index');
+//   } catch (error) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Error' });
+//   }
+// };
