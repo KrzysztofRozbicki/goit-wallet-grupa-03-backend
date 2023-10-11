@@ -1,1 +1,8 @@
-<h2>List of our customers</h2>
+<div>
+  <h2>List of our customers:</h2>
+  <ul>
+    <% customers.forEach(customer => { %>
+    <li><%= customer.name %></li>
+    <% }) %>
+  </ul>
+</div>
