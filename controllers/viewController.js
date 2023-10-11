@@ -11,7 +11,8 @@ export const getInfo = async (req, res) => {
 
 export const getCustomers = async (req, res) => {
   try {
-    res.render('customers/index', { customer: new User() });
+    const customers = await User.find({});
+    res.render('customers/index', { customers: customers });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error' });
