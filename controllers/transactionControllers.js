@@ -5,6 +5,7 @@ dotenv.config();
 import validCategories from '../utils/validCategories.js';
 import categories from '../utils/balanceCategories.js';
 import convertDateToDDMMYYYY from '../utils/correctDate.js';
+import Joi from 'joi';
 
 export const getAllTransactions = async (req, res, next) => {
   try {
@@ -102,14 +103,6 @@ export const updateTransaction = async (req, res) => {
   try {
     let result = await Transaction.findById(id);
 
-    if (!result) {
-      return res.status(404).json({ error: 'Transaction not found' });
-    }
-
-    if (!result.user.equals(req.user._id)) {
-      return res.status(401).json({ error: 'User not authorized' });
-    }
-
     if (req.body.date) {
       req.body.date = convertDateToDDMMYYYY(req.body.date);
       if (req.body.date === 'Invalid date') {
@@ -121,6 +114,14 @@ export const updateTransaction = async (req, res) => {
       return res
         .status(400)
         .json({ error: 'Invalid category provided. Please enter the correct category.' });
+    }
+
+    if (!result.user.equals(req.user._id)) {
+      return res.status(401).json({ error: 'User not authorized' });
+    }
+
+    if (!result) {
+      return res.status(404).json({ error: 'Transaction not found' });
     }
 
     result = await Transaction.findOneAndUpdate({ _id: id }, { $set: req.body }, { new: true });

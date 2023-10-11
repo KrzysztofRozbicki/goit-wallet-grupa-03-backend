@@ -192,8 +192,8 @@ swaggerDocs.paths = {
 
   '/api/transactions': {
     get: {
-      summary: 'List of all transactions for authenticated User',
-      description: 'Get list of all User transactions',
+      summary: 'List of all transactions for authenticated user',
+      description: 'Get list of all user transactions',
       tags: ['Transactions'],
       security: [
         {
@@ -203,6 +203,40 @@ swaggerDocs.paths = {
       responses: {
         200: {
           description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  transactions: [
+                    {
+                      _id: {
+                        type: 'number',
+                      },
+                      user: {
+                        type: 'string',
+                      },
+                      amount: {
+                        type: 'number',
+                      },
+                      category: {
+                        type: 'string',
+                      },
+                      date: {
+                        type: 'number',
+                      },
+                      isIncome: {
+                        type: 'boolean',
+                      },
+                      comment: {
+                        type: 'string',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
         },
         401: {
           description: 'Unauthorized',
@@ -252,6 +286,38 @@ swaggerDocs.paths = {
       responses: {
         201: {
           description: 'Created',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  newTransaction: {
+                    user: {
+                      type: 'string',
+                    },
+                    amount: {
+                      type: 'number',
+                    },
+                    category: {
+                      type: 'string',
+                    },
+                    date: {
+                      type: 'number',
+                    },
+                    isIncome: {
+                      type: 'boolean',
+                    },
+                    comment: {
+                      type: 'string',
+                    },
+                    _id: {
+                      type: 'number',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         400: {
           description: 'Bad request',
@@ -313,6 +379,38 @@ swaggerDocs.paths = {
       responses: {
         200: {
           description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  result: {
+                    _id: {
+                      type: 'number',
+                    },
+                    user: {
+                      type: 'string',
+                    },
+                    amount: {
+                      type: 'number',
+                    },
+                    category: {
+                      type: 'string',
+                    },
+                    date: {
+                      type: 'number',
+                    },
+                    isIncome: {
+                      type: 'boolean',
+                    },
+                    comment: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         401: {
           description: 'Unauthorized',
@@ -387,6 +485,40 @@ swaggerDocs.paths = {
       responses: {
         200: {
           description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  transactions: [
+                    {
+                      _id: {
+                        type: 'number',
+                      },
+                      user: {
+                        type: 'string',
+                      },
+                      amount: {
+                        type: 'number',
+                      },
+                      category: {
+                        type: 'string',
+                      },
+                      date: {
+                        type: 'number',
+                      },
+                      isIncome: {
+                        type: 'boolean',
+                      },
+                      comment: {
+                        type: 'string',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
         },
         400: {
           description: 'Bad request',
