@@ -10,6 +10,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import { transactionsRouter } from './routes/api/transactionRoutes.js';
 import { usersRouter } from './routes/api/userRoutes.js';
 import { viewRouter } from './routes/api/viewRoute.js';
+import { backupRouter } from './routes/api/backupRoutes.js';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocs from './docs/swaggerDoc.js';
@@ -33,6 +34,7 @@ app.use('/api-wallet', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/info', viewRouter);
+app.use('/api/backup', backupRouter);
 
 app.use(passport.initialize());
 
