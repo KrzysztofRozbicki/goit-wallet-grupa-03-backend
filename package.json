@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/KrzysztofRozbicki/goit-wallet-grupa-03-backend#readme",
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
+    "@sendgrid/mail": "^8.1.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
